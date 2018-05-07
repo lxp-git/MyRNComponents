@@ -10,8 +10,7 @@ export const LENGTH = 3
 export const HEIGHT = 32
 
 export default class StepMarqueeView extends PureComponent {
-  static propTypes = {
-  }
+  static propTypes = {}
 
   static defaultProps = {
     duration: Number,
@@ -22,7 +21,7 @@ export default class StepMarqueeView extends PureComponent {
   animatedValue2 = new Animated.Value(0)
 
   state = {
-    count: 0 - 1 ,
+    count: 0 - 1,
     count2: this.props.data.length - 1,
   }
 
@@ -38,45 +37,45 @@ export default class StepMarqueeView extends PureComponent {
     // http://cubic-bezier.com/#.53,.55,1,1
     this.timer = this.setTimeout(() => {
 
-        Animated.timing(this.animatedValue, {
-          toValue: this.state.count * HEIGHT,
-          easing: Easing.linear(Easing.bezier(0, 0, 1, 1)),
-          duration: duration,
-          useNativeDriver,
-        }).start(({finished}) => {
-          if (finished) {
-            this.animateScroll()
-            if (this.state.count === - this.props.data.length) {
-              this.setState({
-                count: this.props.data.length - 1,
-              })
-            } else {
-              this.setState({
-                count: this.state.count - 1,
-              })
-            }
+      Animated.timing(this.animatedValue, {
+        toValue: this.state.count * HEIGHT,
+        easing: Easing.linear(Easing.bezier(0, 0, 1, 1)),
+        duration: duration,
+        useNativeDriver,
+      }).start(({finished}) => {
+        if (finished) {
+          this.animateScroll()
+          if (this.state.count === -this.props.data.length) {
+            this.setState({
+              count: this.props.data.length - 1,
+            })
+          } else {
+            this.setState({
+              count: this.state.count - 1,
+            })
           }
-        })
+        }
+      })
 
-        Animated.timing(this.animatedValue2, {
-          toValue: this.state.count2 * HEIGHT,
-          easing: Easing.linear(Easing.bezier(0, 0, 1, 1)),
-          duration: duration,
-          useNativeDriver,
-        }).start(({finished}) => {
-          if (finished) {
-            this.animateScroll()
-            if (this.state.count2 === - this.props.data.length) {
-              this.setState({
-                count2: this.props.data.length - 1,
-              })
-            } else {
-              this.setState({
-                count2: this.state.count2 - 1,
-              })
-            }
+      Animated.timing(this.animatedValue2, {
+        toValue: this.state.count2 * HEIGHT,
+        easing: Easing.linear(Easing.bezier(0, 0, 1, 1)),
+        duration: duration,
+        useNativeDriver,
+      }).start(({finished}) => {
+        if (finished) {
+          this.animateScroll()
+          if (this.state.count2 === -this.props.data.length) {
+            this.setState({
+              count2: this.props.data.length - 1,
+            })
+          } else {
+            this.setState({
+              count2: this.state.count2 - 1,
+            })
           }
-        })
+        }
+      })
 
     }, 1000)
 
@@ -102,12 +101,21 @@ export default class StepMarqueeView extends PureComponent {
     } = this.props
 
     return (
-      <View style={[styles.container]}>
+      <View style={[
+        styles.container,
+        style,
+      ]}>
         {
           (this.state.count != this.props.data.length - 1) &&
           <Animated.View
-            {...props}
-            style={[style, {transform: [{translateY: this.animatedValue}], width: null}]}
+            style={[
+              {
+                transform: [
+                  {translateY: this.animatedValue},
+                ],
+                width: null
+              }
+            ]}
             onLayout={this.onLayout}
           >
             {this.renderList()}
@@ -117,8 +125,14 @@ export default class StepMarqueeView extends PureComponent {
           {
             (this.state.count2 != this.props.data.length - 1) &&
             <Animated.View
-              {...props}
-              style={[style, {transform: [{translateY: this.animatedValue2}], width: null}]}
+              style={[
+                {
+                  transform: [
+                    {translateY: this.animatedValue2},
+                  ],
+                  width: null
+                }]
+              }
             >
               {this.renderList()}
             </Animated.View>
