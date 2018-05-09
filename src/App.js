@@ -6,13 +6,15 @@
 
 import React, { Component } from 'react';
 import {
+  Image,
   Platform,
   StyleSheet,
-  Text,
+  Text, Touchable,
   View
-} from 'react-native';
+} from 'react-native'
 import StepMarqueeView, { HEIGHT, LENGTH } from './components/StepMarqueeView'
 import CustomService from './components/CustomService'
+import AutoFlatList from './components/AutoFlatList'
 
 type Props = {};
 
@@ -96,6 +98,44 @@ export default class App extends Component<Props> {
         </Text>}
 
 
+        <AutoFlatList
+          data={[]}
+          renderItem={({item}) => (
+            <Touchable
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                padding: 16,
+                backgroundColor:'white'
+              }}
+
+              onPress={()=>{
+                this.props.dispatch(goNewsDetails(item))
+              }}
+            >
+              <View style={{flex:1}}>
+                <Text style={{fontSize: 17}}>{item.title}</Text>
+                <View style={{flexDirection: 'row', marginTop: '16'}}>
+                  <Text style={{fontSize: 12}}>{item.from}</Text>
+                  <Text style={{fontSize: 12, marginLeft: '16'}}>{item.cnum}</Text>
+                </View>
+              </View>
+              <Image
+                style={{
+                  width: 88,
+                  height: 88-28,
+                }}
+                source={{uri: item.banner}}
+              />
+            </Touchable>
+          )}
+          fetchData={(data) => this.props.dispatch(createAction('news/getList')({
+            mid: 1046,
+            page: data.page,
+            limit: data.limit,
+          }))}
+          keyExtractor = {(item, index) => item.nid}
+        />
 
       </View>
     );
